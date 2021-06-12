@@ -16,7 +16,7 @@ def read_gcode(file_name, z_free, z_press, x_offset, y_offset, scale=1.0):
         # print(text[i])
         if 'G-code END' in text[i]:
             break
-        speed = 0.1
+        speed = 0.02
         if 'G' in text[i]:
 
             if 'G0' in text[i]:
@@ -28,7 +28,7 @@ def read_gcode(file_name, z_free, z_press, x_offset, y_offset, scale=1.0):
             y = float(y[1:]) / 100 * scale + y_offset
             if 'M3' in text[i + 1]:
                 points.append((x, y, z_free, speed))
-                points.append((x, y, z_press, 0.1))
+                points.append((x, y, z_press, 0.01))
                 z = z_press
                 # print('M3')
             elif 'M5' in text[i + 1]:
