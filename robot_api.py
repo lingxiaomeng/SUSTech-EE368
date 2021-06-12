@@ -227,42 +227,34 @@ class Robot_Api:
         gripper_command.mode = GripperMode.GRIPPER_SPEED
         finger.value = -0.1
         self.send_gripper_command(gripper_command)
-# GetMeasuredGripperMovementResponse
+        # GetMeasuredGripperMovementResponse
         # Wait for reported speed to be 0
         i = 0
         gripper_request.mode = GripperMode.GRIPPER_SPEED
         while True:
-            i+= 1
+            i += 1
             gripper_measure = self.get_measured_gripper_movement(gripper_request)
             # print(gripper_measure.output)
             # print(dir(gripper_measure.output))
             if len(gripper_measure.output.finger):
                 print("Current speed is : {0}".format(gripper_measure.output.finger[0].value))
-                if gripper_measure.output.finger[0].value < 0.1:
+                if gripper_measure.output.finger[0].value < 0.01:
                     if i > 5:
                         break
             else:  # Else, no finger present in answer, end loop
                 break
+            time.sleep(0.1)
 
-    # req.gripper.finger.append()
-    # req = SendGripperCommandRequest()
-    # finger = Finger()
-    # finger.finger_identifier = 0
-    # finger.value = value
-    # req.input.gripper.finger.append(finger)
-    # req.input.mode = GripperMode.GRIPPER_POSITION
-    #
-    # rospy.loginfo("Sending the gripper command...")
-    #
-    # # Call the service
-    # try:
-    #     self.send_gripper_command(req)
-    # except rospy.ServiceException:
-    #     rospy.logerr("Failed to call SendGripperCommand")
-    #     return False
-    # else:
-    #     time.sleep(0.5)
-    #     return True
+    def gripper_open(self):
+        gripper_command = GripperCommand()
+        finger = Finger()
+        position = 0.0
+        finger.finger_identifier = 1
+        finger.value = position
+        gripper_command.gripper.finger.append(finger)
+        gripper_command.mode = GripperMode.GRIPPER_POSITION
+        self.send_gripper_command(gripper_command)
+        time.sleep(2)
 
     def get_pose(self):
         feedback = rospy.wait_for_message("/" + self.robot_name + "/base_feedback", BaseCyclic_Feedback)
@@ -402,7 +394,7 @@ class Robot_Api:
                         self.FillCartesianWaypoint(waypoint[0], waypoint[1], waypoint[2], math.radians(waypoint[3]),
                                                    math.radians(waypoint[4]),
                                                    math.radians(waypoint[5]), 0))
-            print(goal.trajectory)
+            # print(goal.trajectory)
         # Call the service
         rospy.loginfo("Sending goal(Cartesian waypoint) to action server...")
         try:
