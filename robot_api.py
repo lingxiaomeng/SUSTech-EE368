@@ -362,7 +362,6 @@ class Robot_Api:
         cartesianWaypoint.pose.theta_z = new_theta_z
         cartesianWaypoint.reference_frame = CartesianReferenceFrame.CARTESIAN_REFERENCE_FRAME_BASE
         cartesianWaypoint.blending_radius = blending_radius
-
         return cartesianWaypoint
 
     def cartesian_waypoint_action(self, waypoints):
