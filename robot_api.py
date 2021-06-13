@@ -123,7 +123,7 @@ class Robot_Api:
         t3 = rad2deg(theta3) - 90 + 360
         t4 = -90 +360
         t5 = rad2deg(theta5) - 180 + 360
-        t6 = -90 +360
+        t6 = -90 + 180
 
         joints = [t1,t2,t3,t4,t5,t6]
         return joints
@@ -192,6 +192,31 @@ class Robot_Api:
                 return False
             else:
                 return self.wait_for_action_end_or_abort()
+
+    def example_retract_the_robot(self):
+        # The Home Action is used to home the robot. It cannot be deleted and is always ID #2:
+        self.last_action_notif_type = None
+        req = ReadActionRequest()
+        req.input.identifier = 1
+        try:
+            res = self.read_action(req)
+        except rospy.ServiceException:
+            rospy.logerr("Failed to call ReadAction")
+            return False
+        # Execute the HOME action if we could read it
+        else:
+            # What we just read is the input of the ExecuteAction service
+            req = ExecuteActionRequest()
+            req.input = res.output
+            rospy.loginfo("Sending the robot retract...")
+            try:
+                self.execute_action(req)
+            except rospy.ServiceException:
+                rospy.logerr("Failed to call ExecuteAction")
+                return False
+            else:
+                return self.wait_for_action_end_or_abort()
+
 
     def example_set_cartesian_reference_frame(self):
         self.last_action_notif_type = None
