@@ -99,6 +99,36 @@ class Robot_Api:
             self.dx = 0
             self.dy = 0
 
+
+    
+    def IK(self,px,py,pz):
+        from math import atan2,sqrt,cos,sin
+        from numpy import rad2deg, pi
+
+        d3 = 0.067;
+        theta1 = atan2(py,px)+atan2(d3,sqrt(px**2+py**2-d3**2));
+
+        K = ((cos(theta1)*px+sin(theta1)*py-0.235)**2+(pz-0.2433)**2-0.245**2-0.28**2)/(2*0.245*0.28);
+        theta3 = atan2(K,-sqrt(1-K**2));
+
+        a = -(0.245*sin(theta3)+0.28);
+        b = 0.245*cos(theta3);
+        d = pz-0.2433;
+        theta2 = atan2(b,a)-atan2(d,-sqrt(a**2+b**2-d**2));
+
+        theta5 = pi/2 + theta3 - theta2;
+
+        t1 = rad2deg(theta1) + 360
+        t2 = rad2deg(theta2) - 90 +360
+        t3 = rad2deg(theta3) - 90 + 360
+        t4 = -90 +360
+        t5 = rad2deg(theta5) - 180 + 360
+        t6 = -90 +360
+
+        joints = [t1,t2,t3,t4,t5,t6]
+        return joints
+
+
     def cb_action_topic(self, notif):
         self.last_action_notif_type = notif.action_event
 
@@ -182,12 +212,11 @@ class Robot_Api:
         rospy.sleep(0.25)
         return True
 
-    def example_send_joint_angles(self):
+    def example_send_joint_angles(self, angles):
         self.last_action_notif_type = None
         # Create the list of angles
         req = PlayJointTrajectoryRequest()
         # Here the arm is vertical (all zeros)
-        angles = [305.1813, 289.8717, 123.1235, 270, 103.2518, 270]
         for i in range(self.degrees_of_freedom):
             temp_angle = JointAngle()
             temp_angle.joint_identifier = i

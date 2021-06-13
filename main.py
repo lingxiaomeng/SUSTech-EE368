@@ -1,7 +1,7 @@
 from robot_api import Robot_Api
 import math
 
-from writing.read_gcode import read_gcode
+from read_gcode import read_gcode
 
 if __name__ == "__main__":
     robot = Robot_Api("my_gen3_lite")
@@ -13,8 +13,9 @@ if __name__ == "__main__":
     points = read_gcode("gcode.nc", 0.03, 0.006, 0.2, -0.2, 0.5)
     print(points)
     # robot.go_to_pose(0.2, -0.4, 0.1, 90, 0, 100, True, 0.18)
-    robot.example_send_joint_angles()
-    a = input("next")
+    joints = robot.IK(0.2,-0.4,0.1)
+    robot.example_send_joint_angles(joints)
+
     robot.example_send_gripper_command()
     robot.go_to_pose(0.4, -0.3, 0.2, 90, 0, 100, True, 0.18)
     robot.go_to_pose(0.2, -0.2, 0.2, 90, 0, 100, True, 0.18)
