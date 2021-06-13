@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/mlx/rosws/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/mlx/rosws/src/ros_kortex/third_party/gazebo-pkgs/gazebo_grasp_plugin/include/**",
+        "/home/mlx/rosws/src/ros_kortex/third_party/gazebo-pkgs/gazebo_version_helpers/include/**",
+        "/home/mlx/rosws/src/ros_kortex/kortex_driver/include/**",
+        "/home/mlx/rosws/src/ros_kortex/third_party/roboticsgroup_gazebo_plugins/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS"
+    }
+  ],
+  "version": 4
+}

@@ -7,13 +7,10 @@ def read_gcode(file_name, z_free, z_press, x_offset, y_offset, scale=1.0):
         start += 1
         if 'G-code START' in data:
             break
-    # print(start)
     points = []
 
     z = z_free
     for i in range(start + 3, len(text)):
-
-        # print(text[i])
         if 'G-code END' in text[i]:
             break
         speed = 0.02
@@ -40,9 +37,3 @@ def read_gcode(file_name, z_free, z_press, x_offset, y_offset, scale=1.0):
                 points.append((x, y, z, speed))
     f.close()
     return points
-
-
-def convet2slop(points):
-    new_points = []
-
-    pass
