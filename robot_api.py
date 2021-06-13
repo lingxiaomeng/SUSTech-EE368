@@ -187,11 +187,11 @@ class Robot_Api:
         # Create the list of angles
         req = PlayJointTrajectoryRequest()
         # Here the arm is vertical (all zeros)
-        angles = [313, 295, 62, 85, 50, 112, 100]
+        angles = [305.1813, 289.8717, 123.1235, 270, 103.2518, 270]
         for i in range(self.degrees_of_freedom):
             temp_angle = JointAngle()
             temp_angle.joint_identifier = i
-            temp_angle.value = 0.0
+            temp_angle.value = angles[i]
             req.input.joint_angles.joint_angles.append(temp_angle)
 
         # Send the angles
