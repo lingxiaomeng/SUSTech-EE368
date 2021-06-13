@@ -9,7 +9,7 @@ def read_gcode(file_name, z_free, z_press, x_offset, y_offset, scale=1.0):
         if 'G-code START' in data:
             break
     points = []
-
+    ### Start Generate Trajectory
     z = z_free
     for i in range(start + 3, len(text)):
         if 'G-code END' in text[i]:
