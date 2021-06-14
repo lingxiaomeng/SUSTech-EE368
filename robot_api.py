@@ -124,7 +124,6 @@ class Robot_Api:
         t4 = -90 +360
         t5 = rad2deg(theta5) - 180 + 360
         t6 = -90 + 180
-
         joints = [t1,t2,t3,t4,t5,t6]
         return joints
 
